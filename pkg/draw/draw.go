@@ -1,7 +1,6 @@
 package draw
 
 import (
-	"fmt"
 	"image"
 
 	"github.com/disintegration/gift"
@@ -22,11 +21,9 @@ func Draw(param Parameters) (*image.RGBA, error) {
 		iconToStringGap = 60
 	)
 
-	fmt.Println("Creating canvas")
 	img := image.NewRGBA(image.Rect(0, 0, canvasWidth, canvasHeight))
 	canvas := gg.NewContextForRGBA(img)
 
-	fmt.Println("Drawing background")
 	// draw the background
 	filter := NewResizeToFill(canvasWidth, canvasHeight)
 	filter.DrawAt(img, param.Background(), image.Pt(0, 0), gift.CopyOperator)
@@ -44,7 +41,6 @@ func Draw(param Parameters) (*image.RGBA, error) {
 	)
 	drawBackdrop(canvas, elementBound)
 
-	fmt.Println("Drawing icon")
 	// draw the icon
 	iconSize := elementHeight - (elementMargin * 2)
 	iconBound := image.Rect(
@@ -55,7 +51,6 @@ func Draw(param Parameters) (*image.RGBA, error) {
 	)
 	drawIcon(img, param.Icon(), iconBound)
 
-	fmt.Println("Drawing string")
 	// draw the string
 	stringWidth := canvasWidth - ((canvasMarginInline + elementMargin) * 2) - iconSize - iconToStringGap
 	stringBound := image.Rect(
@@ -65,7 +60,6 @@ func Draw(param Parameters) (*image.RGBA, error) {
 		int(canvasMarginBlock+elementMargin+iconSize),
 	)
 	err := drawStrings(img, param, stringBound)
-	fmt.Println("Drawing result", err)
 
 	if err != nil {
 		return nil, err

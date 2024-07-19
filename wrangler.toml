@@ -1,5 +1,5 @@
 main = "src/index.ts"
-name = "ogimaker"
+name = "og-image-generator"
 compatibility_date = "2024-07-13"
 compatibility_flags = ["nodejs_compat"]
 
