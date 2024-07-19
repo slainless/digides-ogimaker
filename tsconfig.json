@@ -9,9 +9,16 @@
       "ESNext"
     ],
     "types": [
-      "@cloudflare/workers-types"
+      "@cloudflare/workers-types",
+      "@types/node"
     ],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
-  },
+    "jsxImportSource": "hono/jsx",
+    "plugins": [
+      {
+        "transform": "typia/lib/transform"
+      }
+    ],
+    "strictNullChecks": true
+  }
 }

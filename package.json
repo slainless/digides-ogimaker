@@ -1,14 +1,22 @@
 {
   "scripts": {
     "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "dev:wasm": "chokidar \"**/*.go\" -c \"./scripts/build_wasm.sh\"",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
+    "prepare": "ts-patch install && typia patch && bun run codegen"
   },
   "dependencies": {
     "@cloudflare/workers-wasi": "^0.0.5",
-    "hono": "^4.5.0"
+    "hono": "^4.5.0",
+    "typia": "^6.5.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
+    "@types/node": "^20.14.11",
+    "chokidar-cli": "^3.0.0",
+    "ts-patch": "latest",
+    "typescript": "5.5.2",
     "wrangler": "^3.57.2"
   }
 }
