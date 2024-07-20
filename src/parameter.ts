@@ -6,14 +6,17 @@ interface Parameters extends Omit<Payload, "icon" | "background"> {
   background: Uint8Array
 }
 
-export function createParameters(parameter: Parameters): Buffer {
+export function createParameters(parameter: Parameters, quality: number): Buffer {
+  const q = isNaN(quality) ? 75 : Math.max(0, Math.min(100, quality))
+
   const title = Buffer.from(parameter.title)
   const subtitle = Buffer.from(parameter.subtitle)
   const titleFont = Buffer.from(parameter.titleFont ?? "")
   const subtitleFont = Buffer.from(parameter.subtitleFont ?? "")
 
   const data = Buffer.allocUnsafe(
-    (4 * 6) +
+    1 + // quality
+    (4 * 6) + // 4 bytes per parameter size x 6 parameters
     title.byteLength +
     subtitle.byteLength +
     titleFont.byteLength +
@@ -22,14 +25,14 @@ export function createParameters(parameter: Parameters): Buffer {
     parameter.background.byteLength
   )
 
-  data.writeUint32LE(title.byteLength, 0)
-  data.writeUint32LE(subtitle.byteLength, 4)
-  data.writeUint32LE(parameter.icon.byteLength, 8)
-  data.writeUint32LE(parameter.background.byteLength, 12)
-  data.writeUint32LE(titleFont.byteLength, 16)
-  data.writeUint32LE(subtitleFont.byteLength, 20)
-
-  var l = 24
+  var l = 0
+  l = data.writeUint8(q, l)
+  l = data.writeUint32LE(title.byteLength, l)
+  l = data.writeUint32LE(subtitle.byteLength, l)
+  l = data.writeUint32LE(parameter.icon.byteLength, l)
+  l = data.writeUint32LE(parameter.background.byteLength, l)
+  l = data.writeUint32LE(titleFont.byteLength, l)
+  l = data.writeUint32LE(subtitleFont.byteLength, l)
   l += title.copy(data, l)
   l += subtitle.copy(data, l)
   l += titleFont.copy(data, l)

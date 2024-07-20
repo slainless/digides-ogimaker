@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 
-	err = jpeg.Encode(os.Stdout, img, &jpeg.Options{Quality: 100})
+	err = jpeg.Encode(os.Stdout, img, &jpeg.Options{Quality: int(param.Quality)})
 	if err != nil {
 		wasm.Exit(err)
 		return

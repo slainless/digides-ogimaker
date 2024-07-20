@@ -36,7 +36,7 @@ app.get('/', async (c) => {
       subtitle: payload.subtitle,
       icon,
       background,
-    }))
+    }, Number.parseInt(c.env.IMAGE_QUALITY)))
   } catch (e) {
     if (e instanceof TypeGuardError)
       return new Response(e.message, { status: 400 })
