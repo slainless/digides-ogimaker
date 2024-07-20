@@ -33,3 +33,5 @@ lerna-debug.log*
 .DS_Store
 
 build
+.zig-cache
+.zig-out
